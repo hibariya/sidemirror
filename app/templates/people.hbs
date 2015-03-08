@@ -1,0 +1,16 @@
+<style>
+  .people {
+    width: 100%;
+    display: flex;
+  }
+
+  .people video {
+    flex: 1;
+  }
+</style>
+
+<div class='people'>
+  {{#each person in model}}
+    <video {{bind-attr src=person.streamURL}} autoplay controls></video>
+  {{/each}}
+</div>

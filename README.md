@@ -3,6 +3,8 @@
 Sidemirror is an Ember application that provides easily Real-time communication under one intranet.
 Say hello to your honey, pets, friends or oneself :whale:
 
+![Hello](https://cloud.githubusercontent.com/assets/43346/6544251/5d9f44e2-c58a-11e4-88cd-b5fb296ecdac.png)
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.

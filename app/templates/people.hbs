@@ -10,7 +10,7 @@
 </style>
 
 <div class='people'>
-  {{#each person in model}}
+  {{#each model as |person|}}
     <video {{bind-attr src=person.streamURL}} autoplay controls></video>
   {{/each}}
 </div>

@@ -8,14 +8,13 @@ export default Ember.Controller.extend({
     ready: function(data) {
       this.get('store').pushPayload('person', data);
 
-      var person = this.get('session.person');
-      var other  = this.get('store').getById('person', data.person.id);
-      var peer   = this.setupPeer(other);
-
-      other.set('peer', peer);
+      var other = this.get('store').getById('person', data.person.id);
+      var peer  = this.setupPeer(other);
 
       peer.createOffer((description) => {
         peer.setLocalDescription(description, () => {
+          var person = this.get('session.person');
+
           this.message('offer', { person: person.serialize(), description: description }, other.get('socketId'));
         });
       });
@@ -24,14 +23,13 @@ export default Ember.Controller.extend({
     offer: function(data) {
       this.get('store').pushPayload('person', { person: data.person });
 
-      var person = this.get('session.person');
-      var other  = this.get('store').getById('person', data.person.id);
-      var peer   = this.setupPeer(other);
-
-      other.set('peer', peer);
+      var other = this.get('store').getById('person', data.person.id);
+      var peer  = this.setupPeer(other);
 
       peer.setRemoteDescription(new window.RTCSessionDescription(data.description), () => {
         peer.createAnswer((description) => {
+          var person = this.get('session.person');
+
           peer.setLocalDescription(description, () => {
             this.message('answer', { description: description, from: person.get('id') }, other.get('socketId'));
           });
@@ -88,6 +86,21 @@ export default Ember.Controller.extend({
     };
 
     peer.onaddstream = (e) => other.set('stream', e.stream);
+
+    peer.oniceconnectionstatechange = () => {
+      switch (peer.iceConnectionState) {
+        case 'failed':
+        case 'disconnected':
+        case 'closed':
+          this.get('store').unloadRecord(other);
+          break;
+
+        default:
+          // NOP
+      }
+    };
+
+    other.set('peer', peer);
 
     return peer;
   }

@@ -9,8 +9,11 @@
   }
 </style>
 
-<div class='people'>
-  {{#each model as |person|}}
-    <video {{bind-attr src=person.streamURL}} autoplay controls></video>
-  {{/each}}
-</div>
+<nav>
+  <ul>
+    <li>{{link-to 'All' 'people.index'}}</li>
+    <li>{{link-to 'Others' 'people.others'}}</li>
+  </ul>
+</nav>
+
+{{outlet}}

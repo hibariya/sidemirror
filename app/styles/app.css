@@ -1,0 +1,8 @@
+.people {
+  width: 100%;
+  display: flex;
+}
+
+.people video {
+  flex: 1;
+}

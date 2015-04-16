@@ -96,7 +96,7 @@ export default Ember.Controller.extend({
           break;
 
         default:
-          // NOP
+        // NOP
       }
     };
 

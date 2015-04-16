@@ -1,6 +1,5 @@
 {
   "esnext": true,
-  "additionalRules": [ "lib/jscs-rules/*.js" ],
   "disallowSpacesInsideArrayBrackets": "all",
   "requireSpaceBeforeObjectValues": true,
   "requireCommaBeforeLineBreak": true,

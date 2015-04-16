@@ -1,7 +1,5 @@
 /* jshint node: true */
 
-// [Report Only] Refused to connect to 'ws://localhost:4200/socket.io/?EIO=3&transport=websocket&sid=hyF0V93oHUmpDTfCAAAA' because it violates the following Content Security Policy directive: "connect-src 'self' ws://localhost:35729 ws://0.0.0.0:35729".
-
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'sidemirror',

@@ -5,30 +5,30 @@ import ENV from 'sidemirror/config/environment';
 
 export default Ember.Controller.extend({
   actions: {
-    ready: function(data) {
+    ready(data) {
       this.get('store').pushPayload('person', data);
 
-      var other = this.get('store').getById('person', data.person.id);
-      var peer  = this.setupPeer(other);
+      let other = this.get('store').getById('person', data.person.id);
+      let peer  = this.setupPeer(other);
 
       peer.createOffer((description) => {
         peer.setLocalDescription(description, () => {
-          var person = this.get('session.person');
+          let person = this.get('session.person');
 
           this.message('offer', { person: person.serialize(), description: description }, other.get('socketId'));
         });
       });
     },
 
-    offer: function(data) {
+    offer(data) {
       this.get('store').pushPayload('person', { person: data.person });
 
-      var other = this.get('store').getById('person', data.person.id);
-      var peer  = this.setupPeer(other);
+      let other = this.get('store').getById('person', data.person.id);
+      let peer  = this.setupPeer(other);
 
       peer.setRemoteDescription(new window.RTCSessionDescription(data.description), () => {
         peer.createAnswer((description) => {
-          var person = this.get('session.person');
+          let person = this.get('session.person');
 
           peer.setLocalDescription(description, () => {
             this.message('answer', { description: description, from: person.get('id') }, other.get('socketId'));
@@ -37,24 +37,24 @@ export default Ember.Controller.extend({
       });
     },
 
-    answer: function(data) {
-      var other       = this.get('store').getById('person', data.from);
-      var description = new window.RTCSessionDescription(data.description);
+    answer(data) {
+      let other       = this.get('store').getById('person', data.from);
+      let description = new window.RTCSessionDescription(data.description);
 
       other.get('peer').setRemoteDescription(description);
     },
 
-    candidate: function(data) {
-      var other     = this.get('store').getById('person', data.from);
-      var candidate = new window.RTCIceCandidate(data.candidate);
+    candidate(data) {
+      let other     = this.get('store').getById('person', data.from);
+      let candidate = new window.RTCIceCandidate(data.candidate);
 
       other.get('peer').addIceCandidate(candidate);
     }
   },
 
-  subscribe: function() {
-    var socket = io.connect(ENV.config.socketURL);
-    var person = this.get('session.person');
+  subscribe() {
+    let socket = io.connect(ENV.config.socketURL);
+    let person = this.get('session.person');
 
     this.get('socket').set('instance', socket);
 
@@ -69,13 +69,13 @@ export default Ember.Controller.extend({
     });
   },
 
-  message: function(type, payload, recipient) {
+  message(type, payload, recipient) {
     this.get('socket.instance').emit('message', { type: type, payload: payload, recipient: recipient });
   },
 
-  setupPeer: function(other) {
-    var person = this.get('session.person');
-    var peer   = new window.webkitRTCPeerConnection({ iceServers: [] });
+  setupPeer(other) {
+    let person = this.get('session.person');
+    let peer   = new window.webkitRTCPeerConnection({ iceServers: [] });
 
     peer.addStream(person.get('stream'));
 

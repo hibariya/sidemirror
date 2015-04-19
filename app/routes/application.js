@@ -16,14 +16,15 @@ export default Ember.Route.extend({
 
   join: function() {
     // TODO: Firefox, Opera
-    navigator.webkitGetUserMedia({ audio: true, video: true }, (stream) => {
+    // TODO: make options configurable
+    navigator.webkitGetUserMedia({ audio: true, video: { mandatory: { maxWidth: 640, maxHeight: 360, maxFrameRate: 15 } } }, (stream) => {
       this.get('session.person').set('stream', stream);
 
       this.controllerFor('peer').subscribe();
 
       this.transitionTo('people');
     }, function(error) {
-      alert(error.name + ': ' + error.message);
+      console.log(error.name + ': ' + error.message);
     });
   }
 });

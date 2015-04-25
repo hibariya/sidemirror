@@ -6,7 +6,7 @@ export default DS.Model.extend({
   stream: undefined,
   peer:   undefined,
 
-  streamURL: (function() {
+  streamURL: function() {
     return window.URL.createObjectURL(this.get('stream'));
-  }).property('stream')
+  }.property('stream')
 });

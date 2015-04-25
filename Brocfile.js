@@ -19,5 +19,6 @@ var app = new EmberApp();
 
 app.import('bower_components/socket.io-client/socket.io.js');
 app.import('bower_components/node-uuid/uuid.js');
+app.import('bower_components/hammerjs/hammer.js');
 
 module.exports = app.toTree();
